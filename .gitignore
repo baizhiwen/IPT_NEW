@@ -20,6 +20,7 @@ Chain/*
 /config/*
 node
 nodectl
+nodectrl
 cscope*
 IPT
 Makefile
