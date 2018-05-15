@@ -171,18 +171,31 @@ func DeployContract(cmd map[string]interface{}) map[string]interface{} {
 
 func InvokeContract(cmd map[string]interface{}) map[string]interface{} {
 	resp := ResponsePack(Err.SUCCESS)
-
 	str, ok := cmd["Data"].(string)
 	if !ok {
 		resp["Error"] = Err.INVALID_PARAMS
 		return resp
 	}
 
-	param, ok := cmd["Params"].(string)
-	if !ok {
+	param1, err := getParam(cmd["P1"])
+	if err != nil {
 		resp["Error"] = Err.INVALID_PARAMS
 		return resp
 	}
+	param2, err := getParam(cmd["P2"])
+	if err != nil {
+		resp["Error"] = Err.INVALID_PARAMS
+		return resp
+	}
+	param3, err := getParam(cmd["P3"])
+	if err != nil {
+		resp["Error"] = Err.INVALID_PARAMS
+		return resp
+	}
+
+	param := generateParam(param3)
+	param += generateParam(param2)
+	param += generateParam(param1)
 
 	programHashString, ok := cmd["ProgramHash"].(string)
 	if !ok {
@@ -239,4 +252,27 @@ func InvokeContract(cmd map[string]interface{}) map[string]interface{} {
 	resp["Result"] = common.BytesToHexString(hash.ToArrayReverse())
 
 	return resp
+}
+
+func getParam(v interface{}) (string, error) {
+	switch v.(type) {
+	case string:
+		s := v.(string)
+		return common.BytesToHexString([]byte(s)), nil
+	case int:
+		s := v.(int)
+		return common.BytesToHexString(common.IntToBytes(s)), nil
+	}
+	return "", nil
+}
+
+func generateParam(P string) string {
+	var parString string
+	lenP := len(P)
+	if lenP == 0 {
+		parString += "0100"
+	} else {
+		parString += common.BytesToHexString(common.ByteToBytes(lenP/2)) + P
+	}
+	return parString
 }
