@@ -350,7 +350,6 @@ func (rt *restServer) initPostHandler() {
 
 			body, _ := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
-			fmt.Println(string(body))
 			var req = make(map[string]interface{})
 			var resp map[string]interface{}
 			access_token := r.FormValue("access_token")
