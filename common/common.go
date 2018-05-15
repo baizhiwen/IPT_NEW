@@ -1,8 +1,8 @@
 package common
 
 import (
-	"IPT/common/log"
 	. "IPT/common/errors"
+	"IPT/common/log"
 	"bytes"
 	"crypto/sha256"
 	"encoding/binary"
@@ -33,6 +33,13 @@ func GetNonce() uint64 {
 	// Fixme replace with the real random number generator
 	nonce := uint64(rand.Uint32())<<32 + uint64(rand.Uint32())
 	return nonce
+}
+
+func ByteToBytes(n int) []byte {
+	tmp := byte(n)
+	bytesBuffer := bytes.NewBuffer([]byte{})
+	binary.Write(bytesBuffer, binary.LittleEndian, tmp)
+	return bytesBuffer.Bytes()
 }
 
 func IntToBytes(n int) []byte {

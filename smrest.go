@@ -65,12 +65,14 @@ func sendTestDeployContract() {
 }
 
 func sendTestInvokeContract() {
-	codeHash := "422aedde093676f4c0418a4c9d7b928550d86e92"
+	codeHash := "3e183cc7144985828f191b8c25f57b443f8dc9de"
 	programHash := "ec47640feda118210e5f73d54353f3ab086fff72"
 
-	mapParams := make(map[string]string)
+	mapParams := make(map[string]interface{})
 	mapParams["Data"] = codeHash
-	mapParams["Params"] = "010001000100"
+	mapParams["P1"] = "string"
+	mapParams["P2"] = ""
+	mapParams["P3"] = ""
 	mapParams["ProgramHash"] = programHash
 
 	jsonString, err := json.Marshal(mapParams)

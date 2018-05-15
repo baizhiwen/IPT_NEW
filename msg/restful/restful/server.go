@@ -9,6 +9,7 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -230,6 +231,8 @@ func (rt *restServer) getPath(url string) string {
 }
 func (rt *restServer) getParams(r *http.Request, url string, req map[string]interface{}) map[string]interface{} {
 	switch url {
+	case Api_InvokeContract:
+		break
 	case Api_Getconnectioncount:
 		break
 	case Api_GetblockTxsByHeight:
@@ -347,7 +350,6 @@ func (rt *restServer) initPostHandler() {
 
 			body, _ := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
-
 			var req = make(map[string]interface{})
 			var resp map[string]interface{}
 			access_token := r.FormValue("access_token")
