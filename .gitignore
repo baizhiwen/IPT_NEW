@@ -18,7 +18,6 @@ Chain/*
 /core/*/*_test.go
 /core/*/*/*_test.go
 /config/*
-node
 nodectl
 nodectrl
 cscope*
