@@ -104,7 +104,6 @@ func makeInvokeTransaction(signer *account.Account, paramsStr, codeHashStr strin
 
 func DeployContract(cmd map[string]interface{}) map[string]interface{} {
 	resp := ResponsePack(Err.SUCCESS)
-	fmt.Printf("%+v", cmd)
 	str, ok := cmd["Data"].(string)
 	if !ok {
 		resp["Error"] = Err.INVALID_PARAMS

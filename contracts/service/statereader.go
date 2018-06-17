@@ -2,15 +2,15 @@ package service
 
 import (
 	"IPT/common"
+	"IPT/common/errors"
+	"IPT/contracts/states"
+	"IPT/contracts/vm/avm"
+	"IPT/contracts/vm/avm/types"
 	"IPT/core/contract"
 	"IPT/core/ledger"
 	"IPT/core/signature"
 	"IPT/core/transaction"
 	"IPT/crypto"
-	"IPT/common/errors"
-	"IPT/contracts/states"
-	"IPT/contracts/vm/avm"
-	"IPT/contracts/vm/avm/types"
 	"fmt"
 	"math/big"
 )
@@ -79,6 +79,65 @@ func NewStateReader() *StateReader {
 	stateReader.Register("Neo.Contract.GetScript", stateReader.ContractGetCode)
 
 	stateReader.Register("Neo.Storage.GetContext", stateReader.StorageGetContext)
+
+	//new api
+	stateReader.Register("System.Runtime.GetTrigger", stateReader.RuntimeGetTrigger)
+	stateReader.Register("System.Runtime.CheckWitness", stateReader.RuntimeCheckWitness)
+	stateReader.Register("System.Runtime.Notify", stateReader.RuntimeNotify)
+	stateReader.Register("System.Runtime.Log", stateReader.RuntimeLog)
+
+	stateReader.Register("System.Blockchain.GetHeight", stateReader.BlockChainGetHeight)
+	stateReader.Register("System.Blockchain.GetHeader", stateReader.BlockChainGetHeader)
+	stateReader.Register("System.Blockchain.GetBlock", stateReader.BlockChainGetBlock)
+	stateReader.Register("System.Blockchain.GetTransaction", stateReader.BlockChainGetTransaction)
+	stateReader.Register("System.Blockchain.GetAccount", stateReader.BlockChainGetAccount)
+	stateReader.Register("System.Blockchain.GetValidators", stateReader.BlockChainGetValidators)
+	stateReader.Register("System.Blockchain.GetAsset", stateReader.BlockChainGetAsset)
+
+	stateReader.Register("System.Header.GetHash", stateReader.HeaderGetHash)
+	stateReader.Register("System.Header.GetVersion", stateReader.HeaderGetVersion)
+	stateReader.Register("System.Header.GetPrevHash", stateReader.HeaderGetPrevHash)
+	stateReader.Register("System.Header.GetMerkleRoot", stateReader.HeaderGetMerkleRoot)
+	stateReader.Register("System.Header.GetTimestamp", stateReader.HeaderGetTimestamp)
+	stateReader.Register("System.Header.GetConsensusData", stateReader.HeaderGetConsensusData)
+	stateReader.Register("System.Header.GetNextConsensus", stateReader.HeaderGetNextConsensus)
+
+	stateReader.Register("System.Block.GetTransactionCount", stateReader.BlockGetTransactionCount)
+	stateReader.Register("System.Block.GetTransactions", stateReader.BlockGetTransactions)
+	stateReader.Register("System.Block.GetTransaction", stateReader.BlockGetTransaction)
+
+	stateReader.Register("System.Transaction.GetHash", stateReader.TransactionGetHash)
+	stateReader.Register("System.Transaction.GetType", stateReader.TransactionGetType)
+	stateReader.Register("System.Transaction.GetAttributes", stateReader.TransactionGetAttributes)
+	stateReader.Register("System.Transaction.GetInputs", stateReader.TransactionGetInputs)
+	stateReader.Register("System.Transaction.GetOutputs", stateReader.TransactionGetOutputs)
+	stateReader.Register("System.Transaction.GetReferences", stateReader.TransactionGetReferences)
+
+	stateReader.Register("System.Attribute.GetUsage", stateReader.AttributeGetUsage)
+	stateReader.Register("System.Attribute.GetData", stateReader.AttributeGetData)
+
+	stateReader.Register("System.Input.GetHash", stateReader.InputGetHash)
+	stateReader.Register("System.Input.GetIndex", stateReader.InputGetIndex)
+
+	stateReader.Register("System.Output.GetAssetId", stateReader.OutputGetAssetId)
+	stateReader.Register("System.Output.GetValue", stateReader.OutputGetValue)
+	stateReader.Register("System.Output.GetScriptHash", stateReader.OutputGetCodeHash)
+
+	stateReader.Register("System.Account.GetScriptHash", stateReader.AccountGetCodeHash)
+	stateReader.Register("System.Account.GetBalance", stateReader.AccountGetBalance)
+
+	stateReader.Register("System.Asset.GetAssetId", stateReader.AssetGetAssetId)
+	stateReader.Register("System.Asset.GetAssetType", stateReader.AssetGetAssetType)
+	stateReader.Register("System.Asset.GetAmount", stateReader.AssetGetAmount)
+	stateReader.Register("System.Asset.GetAvailable", stateReader.AssetGetAvailable)
+	stateReader.Register("System.Asset.GetPrecision", stateReader.AssetGetPrecision)
+	stateReader.Register("System.Asset.GetOwner", stateReader.AssetGetOwner)
+	stateReader.Register("System.Asset.GetAdmin", stateReader.AssetGetAdmin)
+	stateReader.Register("System.Asset.GetIssuer", stateReader.AssetGetIssuer)
+
+	stateReader.Register("System.Contract.GetScript", stateReader.ContractGetCode)
+
+	stateReader.Register("System.Storage.GetContext", stateReader.StorageGetContext)
 
 	return &stateReader
 }

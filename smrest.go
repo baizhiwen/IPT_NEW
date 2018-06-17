@@ -3,6 +3,7 @@ package main
 import (
 	. "IPT/common"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 
@@ -38,7 +39,7 @@ func HttpPostRequest(url, data string) (string, error) {
 }
 
 func sendTestDeployContract() {
-	fileStr := "hello.avm"
+	fileStr := "ico.avm"
 
 	programHash := "ec47640feda118210e5f73d54353f3ab086fff72"
 
@@ -64,15 +65,15 @@ func sendTestDeployContract() {
 	fmt.Println(result)
 }
 
-func sendTestInvokeContract() {
-	codeHash := "3e183cc7144985828f191b8c25f57b443f8dc9de"
+func sendTestInvokeContract(p1 string, p2, p3 interface{}) {
+	codeHash := "2a007930cfd2e72413bbd93e4e183dc23075e1c8"
 	programHash := "ec47640feda118210e5f73d54353f3ab086fff72"
 
 	mapParams := make(map[string]interface{})
 	mapParams["Data"] = codeHash
-	mapParams["P1"] = "string"
-	mapParams["P2"] = ""
-	mapParams["P3"] = ""
+	mapParams["P1"] = p1
+	mapParams["P2"] = p2
+	mapParams["P3"] = p3
 	mapParams["ProgramHash"] = programHash
 
 	jsonString, err := json.Marshal(mapParams)
@@ -88,6 +89,14 @@ func sendTestInvokeContract() {
 }
 
 func main() {
-	//sendTestDeployContract()
-	sendTestInvokeContract()
+	action := flag.String("contract", "deploy", "config file name")
+	param1 := flag.String("p1", "deploy", "config file name")
+	param2 := flag.String("p2", "0", "config file name")
+	param3 := flag.String("p3", "0", "config file name")
+	flag.Parse()
+	if *action == "deploy" {
+		sendTestDeployContract()
+	} else {
+		sendTestInvokeContract(*param1, *param2, *param3)
+	}
 }

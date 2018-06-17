@@ -2,6 +2,11 @@ package service
 
 import (
 	"IPT/common"
+	"IPT/common/errors"
+	. "IPT/contracts/errors"
+	"IPT/contracts/states"
+	"IPT/contracts/storage"
+	"IPT/contracts/vm/avm"
 	"IPT/core/asset"
 	"IPT/core/code"
 	"IPT/core/contract"
@@ -9,11 +14,6 @@ import (
 	"IPT/core/store"
 	"IPT/core/transaction"
 	"IPT/crypto"
-	"IPT/common/errors"
-	. "IPT/contracts/errors"
-	"IPT/contracts/states"
-	"IPT/contracts/storage"
-	"IPT/contracts/vm/avm"
 	"bytes"
 	"encoding/hex"
 	"fmt"
@@ -39,6 +39,18 @@ func NewStateMachine(dbCache storage.DBCache, innerCache storage.DBCache) *State
 	stateMachine.StateReader.Register("Neo.Storage.Put", stateMachine.StoragePut)
 	stateMachine.StateReader.Register("Neo.Storage.Delete", stateMachine.StorageDelete)
 	stateMachine.StateReader.Register("Neo.Contract.GetStorageContext", stateMachine.GetStorageContext)
+
+	//new api
+	stateMachine.StateReader.Register("System.Validator.Register", stateMachine.RegisterValidator)
+	stateMachine.StateReader.Register("System.Asset.Create", stateMachine.CreateAsset)
+	stateMachine.StateReader.Register("System.Contract.Create", stateMachine.CreateContract)
+	stateMachine.StateReader.Register("System.Blockchain.GetContract", stateMachine.GetContract)
+	stateMachine.StateReader.Register("System.Asset.Renew", stateMachine.AssetRenew)
+	stateMachine.StateReader.Register("System.Storage.Get", stateMachine.StorageGet)
+	stateMachine.StateReader.Register("System.Contract.Destroy", stateMachine.ContractDestory)
+	stateMachine.StateReader.Register("System.Storage.Put", stateMachine.StoragePut)
+	stateMachine.StateReader.Register("System.Storage.Delete", stateMachine.StorageDelete)
+	stateMachine.StateReader.Register("System.Contract.GetStorageContext", stateMachine.GetStorageContext)
 	return &stateMachine
 }
 
