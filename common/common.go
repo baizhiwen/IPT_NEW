@@ -56,6 +56,14 @@ func BytesToInt16(b []byte) int16 {
 	return int16(tmp)
 }
 
+func IntsToBytes(b []int) []byte {
+	i := make([]byte, len(b))
+	for k, v := range b {
+		i[k] = byte(v)
+	}
+	return i
+}
+
 func BytesToInt(b []byte) []int {
 	i := make([]int, len(b))
 	for k, v := range b {

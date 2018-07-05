@@ -72,9 +72,15 @@ func TransArryByteToHexString(ptx *tx.Transaction) *Transactions {
 	n = 0
 	trans.Programs = make([]ProgramInfo, len(ptx.Programs))
 	for _, v := range ptx.Programs {
-		trans.Programs[n].Code = BytesToHexString(v.Code)
-		trans.Programs[n].Parameter = BytesToHexString(v.Parameter)
-		n++
+		if n == 0 {
+			trans.Programs[n].Code = BytesToHexString(v.Code)
+			trans.Programs[n].Parameter = BytesToHexString(v.Parameter)
+			n++
+		} else if n > 0 {
+			trans.Programs[n].Code = string(v.Code[:])
+			trans.Programs[n].Parameter = string(v.Parameter[:])
+			n++
+		}
 	}
 
 	n = 0

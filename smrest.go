@@ -39,7 +39,7 @@ func HttpPostRequest(url, data string) (string, error) {
 }
 
 func sendTestDeployContract() {
-	fileStr := "ico.avm"
+	fileStr := "test.avm"
 
 	programHash := "ec47640feda118210e5f73d54353f3ab086fff72"
 
@@ -66,7 +66,7 @@ func sendTestDeployContract() {
 }
 
 func sendTestInvokeContract(p1 string, p2, p3 interface{}) {
-	codeHash := "2a007930cfd2e72413bbd93e4e183dc23075e1c8"
+	codeHash := "b9faaffc06de6dd83bdd1a5bbdd7b27ff04fee36"
 	programHash := "ec47640feda118210e5f73d54353f3ab086fff72"
 
 	mapParams := make(map[string]interface{})

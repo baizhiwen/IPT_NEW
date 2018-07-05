@@ -964,13 +964,16 @@ func (bd *ChainStore) persist(b *Block) error {
 			socket.PushResult(txHash, 0, INVOKE_TRANSACTION, ret)
 
 			newProgram := program.Program{
-				Parameter: make([]byte, 1),
+				Parameter: []byte("invoke contract"),
 			}
+			fmt.Println("***************:ret", ret)
 			switch ret.(type) {
 			case *big.Int:
+				fmt.Println("***************:big.Int")
 				v := ret.(*big.Int)
 				newProgram.Code = v.Bytes()
 			case bool:
+				fmt.Println("***************:bool")
 				v := ret.(bool)
 				if v {
 					newProgram.Code = []byte{1}
@@ -978,12 +981,21 @@ func (bd *ChainStore) persist(b *Block) error {
 					newProgram.Code = []byte{0}
 				}
 			case string:
+				fmt.Println("***************:string")
 				v := ret.(string)
 				newProgram.Code = []byte(v)
 			case []byte:
+				fmt.Println("***************:bytes")
 				v := ret.([]byte)
 				newProgram.Code = v
-
+			case []int:
+				fmt.Println("***************:ints")
+				bytes := IntsToBytes(ret.([]int))
+				fmt.Println("***************:ints string ", string(bytes[:]))
+				newProgram.Code = bytes
+				fmt.Println("new code:", newProgram.Code)
+			default:
+				fmt.Println("***************:unknown")
 			}
 
 			b.Transactions[i].Programs = append(b.Transactions[i].Programs, &newProgram)
